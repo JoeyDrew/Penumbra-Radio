@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  deviceid: MyString
+  location: MyString
+  year: 1
+  month: 1
+  day: 1
+  time: 1
+  user_id: 
+
+two:
+  deviceid: MyString
+  location: MyString
+  year: 1
+  month: 1
+  day: 1
+  time: 1
+  user_id: 

@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Deviceid:</strong>
+  <%= @login.deviceid %>
+</p>
+
+<p>
+  <strong>Location:</strong>
+  <%= @login.location %>
+</p>
+
+<p>
+  <strong>Year:</strong>
+  <%= @login.year %>
+</p>
+
+<p>
+  <strong>Month:</strong>
+  <%= @login.month %>
+</p>
+
+<p>
+  <strong>Day:</strong>
+  <%= @login.day %>
+</p>
+
+<p>
+  <strong>Time:</strong>
+  <%= @login.time %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @login.user %>
+</p>
+
+<%= link_to 'Edit', edit_login_path(@login) %> |
+<%= link_to 'Back', logins_path %>
