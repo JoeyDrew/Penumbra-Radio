@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :ratings, except: [:new, :edit]
+  resources :songs, except: [:new, :edit]
   resources :logins, except: [:new, :edit]
   resources :users, except: [:new, :edit]
   # The priority is based upon order of creation: first created -> highest priority.

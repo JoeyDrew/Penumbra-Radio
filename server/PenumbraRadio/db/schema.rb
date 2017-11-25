@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171125015037) do
+ActiveRecord::Schema.define(version: 20171125073431) do
 
   create_table "logins", force: :cascade do |t|
     t.string   "deviceid"
@@ -27,12 +27,36 @@ ActiveRecord::Schema.define(version: 20171125015037) do
 
   add_index "logins", ["user_id"], name: "index_logins_on_user_id"
 
+  create_table "ratings", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "song_id"
+    t.integer  "rating",     limit: 10
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "ratings", ["song_id"], name: "index_ratings_on_song_id"
+  add_index "ratings", ["user_id"], name: "index_ratings_on_user_id"
+
+  create_table "songs", force: :cascade do |t|
+    t.string   "title"
+    t.string   "artist"
+    t.string   "publisher"
+    t.integer  "year"
+    t.string   "path"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email"
     t.string   "name"
     t.string   "auth_token"
+    t.integer  "rating_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "users", ["rating_id"], name: "index_users_on_rating_id"
 
 end

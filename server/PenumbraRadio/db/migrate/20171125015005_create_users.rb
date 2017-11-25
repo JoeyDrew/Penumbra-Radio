@@ -5,6 +5,8 @@ class CreateUsers < ActiveRecord::Migration
       t.string :name
       t.string :auth_token
 
+		t.references :rating, index: true, foreign_key: true
+
       t.timestamps null: false
     end
   end
