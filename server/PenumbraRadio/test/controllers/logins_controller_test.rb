@@ -11,17 +11,12 @@ class LoginsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:logins)
   end
 
-  test "should get new" do
-    get :new
-    assert_response :success
-  end
-
   test "should create login" do
     assert_difference('Login.count') do
       post :create, login: { day: @login.day, deviceid: @login.deviceid, location: @login.location, month: @login.month, time: @login.time, user_id: @login.user_id, year: @login.year }
     end
 
-    assert_redirected_to login_path(assigns(:login))
+    assert_response 201
   end
 
   test "should show login" do
@@ -29,14 +24,9 @@ class LoginsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get edit" do
-    get :edit, id: @login
-    assert_response :success
-  end
-
   test "should update login" do
-    patch :update, id: @login, login: { day: @login.day, deviceid: @login.deviceid, location: @login.location, month: @login.month, time: @login.time, user_id: @login.user_id, year: @login.year }
-    assert_redirected_to login_path(assigns(:login))
+    put :update, id: @login, login: { day: @login.day, deviceid: @login.deviceid, location: @login.location, month: @login.month, time: @login.time, user_id: @login.user_id, year: @login.year }
+    assert_response 204
   end
 
   test "should destroy login" do
@@ -44,6 +34,6 @@ class LoginsControllerTest < ActionController::TestCase
       delete :destroy, id: @login
     end
 
-    assert_redirected_to logins_path
+    assert_response 204
   end
 end

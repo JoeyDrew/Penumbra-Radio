@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171124220800) do
+ActiveRecord::Schema.define(version: 20171125015037) do
 
   create_table "logins", force: :cascade do |t|
     t.string   "deviceid"
