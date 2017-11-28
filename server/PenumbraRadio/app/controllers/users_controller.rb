@@ -1,6 +1,12 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :update, :destroy]
 
+  def signin
+	 user = User.find_by(name: params[:user][:name], email: params[:user][:email])
+    render json: user
+	 #redirect_to("users/#{user.id}")
+  end
+
   # GET /users
   # GET /users.json
   def index

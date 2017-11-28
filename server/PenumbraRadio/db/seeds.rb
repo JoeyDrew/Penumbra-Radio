@@ -15,8 +15,8 @@ l2 = u1.logins.create(deviceid: 'abc123', location: 'Texas', year: 2018, month: 
 l3 = u2.logins.create(deviceid: 'def345', location: 'New York', year: 2018, month: 10, day: 16, time: 12345)
 l4 = u2.logins.create(deviceid: 'ghi678', location: 'New York', year: 2018, month: 10, day: 16, time: 28403)
 
-s1 = Song.create(title: 'The Number of The Beast', artist: 'Iron Maiden', publisher: 'EMI', year: 1982, path: 'example/path')
-s2 = Song.create(title: 'Electric Eye', artist: 'Judas Priest', publisher: 'Columbia', year: 1982, path: 'example/path2')
+s1 = Song.create(title: 'The Number of The Beast', artist: 'Iron Maiden', publisher: 'EMI', year: 1982, audioname: 'TheNumberOfTheBeast.mp3', artname: 'TheNumberOfTheBeast.jpg')
+s2 = Song.create(title: 'Electric Eye', artist: 'Judas Priest', publisher: 'Columbia', year: 1982, audioname: 'ElectricEye.mp3', artname: 'ElectricEye.jpg')
 
 r1 = u1.ratings.create(song: s1, rating: 10)
 r2 = u1.ratings.create(song: s2, rating: 8)

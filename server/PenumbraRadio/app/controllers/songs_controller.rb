@@ -1,6 +1,22 @@
 class SongsController < ApplicationController
   before_action :set_song, only: [:show, :update, :destroy]
 
+  # GET /songs/:id/listen
+  def sendaudio
+	 song = Song.find_by(id: params[:id])
+	 if song
+		send_file "#{Rails.root}/app/assets/audio/#{song.audioname}"
+	 end
+  end
+
+  # GET /songs/art/:id
+  def sendart
+    song = Song.find_by(id: params[:id])
+	 if song
+	 	send_file "#{Rails.root}/app/assets/images/#{song.artname}"
+	 end
+  end
+
   # GET /songs
   # GET /songs.json
   def index

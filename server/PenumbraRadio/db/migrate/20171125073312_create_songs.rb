@@ -5,7 +5,8 @@ class CreateSongs < ActiveRecord::Migration
       t.string :artist
       t.string :publisher
       t.integer :year
-      t.string :path
+      t.string :audioname
+		t.string :artname
 
       t.timestamps null: false
     end

@@ -43,7 +43,8 @@ ActiveRecord::Schema.define(version: 20171125073431) do
     t.string   "artist"
     t.string   "publisher"
     t.integer  "year"
-    t.string   "path"
+    t.string   "audioname"
+    t.string   "artname"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
