@@ -24,5 +24,5 @@ r2 = u1.ratings.create(song: s2, rating: 8)
 r3 = u2.ratings.create(song: s1, rating: 6)
 r4 = u2.ratings.create(song: s2, rating: 4)
 
-n1 = Article.create(name: "First News Article", body: "This is the first news article that is seeded in the database")
-n2 = Article.create(name: "Second News Article", body: "And this is the second")
+n1 = Article.create(title: "First News Article", body: "This is the first news article that is seeded in the database")
+n2 = Article.create(title: "Second News Article", body: "And this is the second")

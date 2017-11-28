@@ -13,7 +13,7 @@ class ArticlesControllerTest < ActionController::TestCase
 
   test "should create article" do
     assert_difference('Article.count') do
-      post :create, article: {  }
+      post :create, article: { body: @article.body, title: @article.title }
     end
 
     assert_response 201
@@ -25,7 +25,7 @@ class ArticlesControllerTest < ActionController::TestCase
   end
 
   test "should update article" do
-    put :update, id: @article, article: {  }
+    put :update, id: @article, article: { body: @article.body, title: @article.title }
     assert_response 204
   end
 
