@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
+  resources :articles, except: [:new, :edit]
   root 'users#index'
 	 get 'signin' => 'users#signin'
     get 'songs/:id/listen' => 'songs#sendaudio'
-    get 'songs/art/:id' => 'songs#sendart'
+    get 'songs/:id/art' => 'songs#sendart'
   resources :ratings, except: [:new, :edit]
   resources :songs, except: [:new, :edit]
   resources :logins, except: [:new, :edit]
