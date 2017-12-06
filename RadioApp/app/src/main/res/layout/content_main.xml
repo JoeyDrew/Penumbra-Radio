@@ -22,7 +22,6 @@
         app:layout_constraintTop_toBottomOf="@+id/editText2"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="@+id/button9"
-        android:onClick="login"
         android:layout_marginLeft="20dp" />
 
     <EditText
