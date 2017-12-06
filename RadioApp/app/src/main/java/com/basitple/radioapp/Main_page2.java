@@ -284,7 +284,7 @@ public class Main_page2 extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
 
         // replace the FrameLayout with new Fragment
-        fragmentTransaction.replace(R.id.backActivity, fragment);
+        fragmentTransaction.replace(R.id.backActivity, fragment, "first");
         fragmentTransaction.commit(); // save the changes
     }
 }
