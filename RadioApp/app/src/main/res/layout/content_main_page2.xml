@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/look2"
+    android:background="@drawable/stary_background"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.basitple.radioapp.Main_page2"
     tools:layout_editor_absoluteX="0dp"
