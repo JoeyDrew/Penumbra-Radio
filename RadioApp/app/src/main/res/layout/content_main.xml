@@ -8,7 +8,8 @@
     tools:context="com.basitple.radioapp.MainActivity"
     tools:showIn="@layout/activity_main"
     tools:layout_editor_absoluteY="81dp"
-    tools:layout_editor_absoluteX="0dp">
+    tools:layout_editor_absoluteX="0dp"
+    android:background="@drawable/stars_in_galaxy">
 
     <Button
         android:id="@+id/button"
@@ -31,13 +32,16 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Name"
+        android:textColorHint="#ffff"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         app:layout_constraintRight_toRightOf="@+id/editText2"
         android:layout_marginTop="49dp"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="@+id/editText2" />
+        app:layout_constraintLeft_toLeftOf="@+id/editText2"
+        android:textColor="#ffffffff"
+        android:backgroundTint="#ffffffff"/>
 
     <EditText
         android:id="@+id/editText2"
@@ -46,27 +50,30 @@
         android:ems="10"
         android:inputType="textEmailAddress"
         android:hint="Email"
+        android:textColorHint="#ffffff"
         tools:layout_constraintTop_creator="1"
         android:layout_marginStart="69dp"
         android:layout_marginTop="57dp"
         app:layout_constraintTop_toBottomOf="@+id/editText"
         tools:layout_constraintLeft_creator="1"
+        android:textColor="#ffffffff"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginLeft="69dp" />
+        android:layout_marginLeft="69dp"
+        android:backgroundTint="#ffffffff"
+        />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login page "
+        android:layout_marginTop="68dp"
+        android:text="Penumbra Radio "
+        android:textColor="#ffffffff"
         android:textSize="30dp"
-        android:layout_marginStart="30dp"
-        tools:layout_constraintTop_creator="1"
-        android:layout_marginTop="71dp"
-        tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="@+id/editText"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="30dp" />
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <Button
         android:id="@+id/button9"
