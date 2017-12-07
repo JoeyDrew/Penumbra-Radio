@@ -11,10 +11,7 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,9 +24,13 @@ import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Main_page2 extends AppCompatActivity
+public class HomePageActivity extends AppCompatActivity
 {
-    Button butAlarm;
+    Button newsButton;
+    Button alarmButton;
+    Button musicButton;
+    Button profileButton;
+    Button logOutButton;
 
     /*For Audio Player*/
     private Button btn;
@@ -50,14 +51,29 @@ public class Main_page2 extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page2);
 
-        //Navigation to News Button
-        butAlarm = (Button)findViewById(R.id.newsButton);
-        butAlarm.setOnClickListener(new View.OnClickListener() {
+        //Set up buttons
+        newsButton = (Button)findViewById(R.id.NEWS_BUTTON);
+        alarmButton = (Button)findViewById(R.id.ALARM_BUTTON);
+        musicButton = (Button)findViewById(R.id.MUSIC_BUTTON);
+        profileButton = (Button)findViewById(R.id.PROFILE_BUTTON);
+        logOutButton = (Button)findViewById(R.id.LOG_OUT_BUTTON);
+
+        newsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadFragment(new news());
             }
         });
+
+        alarmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toAlarms = new Intent(HomePageActivity.this, AlarmPageActivity.class);
+                startActivity(toAlarms);
+            }
+        });
+
+
 
          /*For Audio player*/
         btn = (Button) findViewById(R.id.button);
@@ -234,7 +250,7 @@ public class Main_page2 extends AppCompatActivity
         }
 
         public Player() {
-            progress = new ProgressDialog(Main_page2.this);
+            progress = new ProgressDialog(HomePageActivity.this);
         }
 
         @Override
