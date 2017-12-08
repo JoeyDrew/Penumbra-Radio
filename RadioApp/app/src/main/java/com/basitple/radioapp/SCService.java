@@ -1,5 +1,6 @@
 package com.basitple.radioapp;
 
+import java.io.File;
 import java.util.List;
 
 import retrofit2.Call;
@@ -11,9 +12,9 @@ public interface SCService {
     @GET("/songs/")
     Call<SongsList> getSongs();
 
-    @GET("/songs/{id}")
-    Call<Song> get1Song(@Path("id") int id);
-
     @GET("/users/{id}")
-    Call<List<User>> getUsers(@Path("id") String id);
+    Call<UsersList> getUsers(@Path("id") String id);
+
+    @GET("/songs/{id}/listen")
+    Call<File> getSongFile(@Path("id") int id);
 }

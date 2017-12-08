@@ -7,15 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import java.util.concurrent.ExecutionException;
 // added the login possibility
 //get some skiped frame errors, but it will not crash the app
 //i am using the production server. since i am not making any changes to it.
 // yo can try
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button login;
     private Button newUser;
@@ -29,52 +26,34 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         loginName = (EditText)findViewById(R.id.user_name_login);
         loginEmail = (EditText)findViewById(R.id.user_Email_login);
-        login = (Button)findViewById(R.id.button);
-        newUser = (Button)findViewById(R.id.button9);
+        login = (Button)findViewById(R.id.LOGIN_BUTTON);
+        newUser = (Button)findViewById(R.id.NEW_USE_BUTTON);
+        login.setOnClickListener(this);
+        newUser.setOnClickListener(this);
         toHome = new Intent(LoginActivity.this, HomePageActivity.class);
 
-        // perform setOnClickListener on first Button
-        login.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                //Load back activity fragment
-                String method = "login";
-                String userName;
-                String userEmail;
-                userEmail = loginEmail.getText().toString();
-                userName = loginName.getText().toString();
-
-                try {
-                    String output=  new LoginBackgroundTask().execute(method,userName,userEmail).get();
-                    Log.e("user",output);
-                    if(output.equalsIgnoreCase(userName)){
+    }
+    @Override
+    public void onClick(View v){
+        Log.d("Click registered", v.toString());
+        Log.d("v.Id", Integer.toString(v.getId()));
+        Log.d("login.id", Integer.toString(login.getId()));
+        if(v.getId() == login.getId()){
+            Log.d("match", "match");
+            new LoginTask(loginName.getText().toString()
+                    , loginEmail.getText().toString()
+                    , new AsyncResponse<Boolean>() {
+                @Override
+                public void processFinish(Boolean value) {
+                    Log.d("value", Boolean.toString(value));
+                    if(value){
                         startActivity(toHome);
-                        Toast.makeText(LoginActivity.this,"welcome " + userName + "!",Toast.LENGTH_LONG).show();
-                    }else {
-                        Toast.makeText(LoginActivity.this,"Please register",Toast.LENGTH_LONG).show();
                     }
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
                 }
+            }).execute();
+        } else if(v == newUser){
 
-            }
-        });
-
-        newUser.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Intent toRegister = new Intent(LoginActivity.this, MainRegistrationActivity.class);
-                startActivity(toRegister);
-            }
-        });
-
+        }
     }
 }
 
