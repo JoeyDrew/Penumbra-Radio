@@ -1,28 +1,14 @@
 package com.basitple.radioapp;
 
 //what to delete here?
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.List;
 
 public class HomePageActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -31,7 +17,8 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     private Button musicButton;
     private Button profileButton;
     private Button logOutButton;
-    static MusicStream stream;
+    public static List<Song> songs;
+    BuildMusicStream stream;
     private Intent toAlarm;
     private Intent toProfile;
     private Intent toMusic;
@@ -65,7 +52,15 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void initMusicPlayer(){
-        stream = new MusicStream();
+        new BuildMusicStream(new AsyncResponse<List<Song>>() {
+            @Override
+            public void processFinish(List<Song> output) {
+                songs = output;
+                for(Song song : songs) {
+                    Log.i("Songs in main", song.getTitle());
+                }
+            }
+        }).execute();
     }
 
     @Override

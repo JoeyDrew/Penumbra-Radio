@@ -21,10 +21,6 @@ class LoginBackgroundTask extends AsyncTask<String, Void, String> {
     private Context ctx;
 
 
-    LoginBackgroundTask(Context ctx) {
-        this.ctx = ctx;
-    }
-
     @Override
     protected String doInBackground(String... params) {
         //local server addr

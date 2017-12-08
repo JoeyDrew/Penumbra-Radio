@@ -1,5 +1,7 @@
 package com.basitple.radioapp;
 
+import android.media.AsyncPlayer;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.ViewDebug;
 
@@ -12,10 +14,30 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MusicStream {
-    private List<Song> songs;
+public class BuildMusicStream extends AsyncTask<Void, Void, List<Song>> {
+    static private List<Song> songs;
 
-    public MusicStream(){
+    public AsyncResponse<List<Song>> delegate = null;
+    public BuildMusicStream(AsyncResponse<List<Song>> delegate){
+        this.delegate = delegate;
+    }
+    @Override
+    protected List<Song> doInBackground(Void... Params){
+        BuildMusicList();
+        return songs;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
+
+    @Override
+    protected void onPostExecute(List<Song> songs) {
+        super.onPostExecute(songs);
+    }
+
+    private void BuildMusicList(){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Config.SERVER_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -28,18 +50,23 @@ public class MusicStream {
             public void onResponse(Call<SongsList> call, Response<SongsList> response) {
                 if(response.isSuccessful()){
                     Log.d("Response", response.body().songs.get(1).getTitle());
-                    SongsList tmp = response.body();
-                    songs = tmp.songs;
+                    SongsList songsOBJ = response.body();
+                    songs = songsOBJ.songs;
+                    delegate.processFinish(songsOBJ.songs);
+
+
 
                 } else {
                     Log.e("Response Error", Integer.toString(response.code()));
                 }
+
             }
 
             @Override
             public void onFailure(Call<SongsList> call, Throwable t) {
                 Log.e("Response Failed", t.getMessage());
                 t.printStackTrace();
+
             }
         });
     }

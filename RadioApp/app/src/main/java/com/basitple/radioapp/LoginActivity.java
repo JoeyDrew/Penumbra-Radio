@@ -45,15 +45,15 @@ public class LoginActivity extends AppCompatActivity {
                 String userEmail;
                 userEmail = loginEmail.getText().toString();
                 userName = loginName.getText().toString();
-                LoginBackgroundTask loginBackgroundTask = new LoginBackgroundTask(LoginActivity.this);
+
                 try {
-                    String output=  loginBackgroundTask.execute(method,userName,userEmail).get();
+                    String output=  new LoginBackgroundTask().execute(method,userName,userEmail).get();
                     Log.e("user",output);
                     if(output.equalsIgnoreCase(userName)){
                         startActivity(toHome);
                         Toast.makeText(LoginActivity.this,"welcome " + userName + "!",Toast.LENGTH_LONG).show();
                     }else {
-                        Toast.makeText(LoginActivity.this,"register",Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this,"Please register",Toast.LENGTH_LONG).show();
                     }
 
                 } catch (InterruptedException e) {
