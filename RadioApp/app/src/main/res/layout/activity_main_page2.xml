@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.basitple.radioapp.Main_page2"
+    tools:context="com.basitple.radioapp.HomePageActivity"
     app:umanoPanelHeight="100dp"
     app:umanoShadowHeight="10dp"
     app:umanoOverlay= "true"

@@ -4,21 +4,16 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
 
-public class MainPage extends AppCompatActivity {
+public class AlarmPageActivity extends AppCompatActivity {
     AlarmManager alarmManager;
     TimePicker time_Picker;
     Context context;
@@ -33,7 +28,7 @@ public class MainPage extends AppCompatActivity {
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         time_Picker = (TimePicker)findViewById(R.id.timePicker);
         final Calendar calendar = Calendar.getInstance();
-        final Intent intent = new Intent(this.context,MainPage.class);
+        final Intent intent = new Intent(this.context,AlarmPageActivity.class);
         toggle = (ToggleButton)findViewById(R.id.toggleButton);
         toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             public  void onCheckedChanged(CompoundButton buttonView, boolean isChecked){

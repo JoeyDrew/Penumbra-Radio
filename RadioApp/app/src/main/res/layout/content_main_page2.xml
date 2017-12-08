@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/look2"
+    android:background="@drawable/stary_background"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.basitple.radioapp.Main_page2"
+    tools:context="com.basitple.radioapp.HomePageActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="25dp"
     tools:showIn="@layout/activity_main_page2">
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/PROFILE_BUTTON"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="167dp"
         android:layout_height="153dp"
@@ -23,7 +23,7 @@
         android:background="@drawable/round_button"
         android:elevation="1dp"
         android:text="Profile"
-        app:layout_constraintBottom_toBottomOf="@+id/button7"
+        app:layout_constraintBottom_toBottomOf="@+id/LOG_OUT_BUTTON"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_constraintBottom_creator="1"
@@ -31,7 +31,7 @@
         tools:layout_constraintTop_creator="1" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/NEWS_BUTTON"
         android:layout_width="157dp"
         android:layout_height="117dp"
         android:layout_marginLeft="16dp"
@@ -45,7 +45,7 @@
         tools:layout_constraintTop_creator="1" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/MUSIC_BUTTON"
         android:layout_width="166dp"
         android:layout_height="0dp"
         android:layout_marginLeft="51dp"
@@ -54,24 +54,24 @@
         android:background="@drawable/round_button"
         android:text="music"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button4"
+        app:layout_constraintTop_toTopOf="@+id/NEWS_BUTTON"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1" />
 
     <Button
-        android:id="@+id/button7"
+        android:id="@+id/LOG_OUT_BUTTON"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="34dp"
         android:text="Log out"
-        app:layout_constraintBottom_toTopOf="@+id/button5"
+        app:layout_constraintBottom_toTopOf="@+id/MUSIC_BUTTON"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintRight_creator="1" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/ALARM_BUTTON"
         android:layout_width="172dp"
         android:layout_height="118dp"
         android:layout_marginBottom="104dp"

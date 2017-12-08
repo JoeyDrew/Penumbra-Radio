@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.basitple.radioapp.MainActivity">
+    tools:context="com.basitple.radioapp.LoginActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

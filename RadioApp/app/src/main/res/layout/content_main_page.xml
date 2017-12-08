@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/stary_background"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.basitple.radioapp.MainPage"
+    tools:context="com.basitple.radioapp.AlarmPageActivity"
     tools:showIn="@layout/activity_main_page">
+
 
     <TimePicker
         android:id="@+id/timePicker"

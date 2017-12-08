@@ -4,6 +4,8 @@
 
     <!--IMPORTANT WONT PLAY WITHOUT PERMISSION! -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -13,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -23,11 +25,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainPage"
+            android:name=".AlarmPageActivity"
             android:label="@string/title_activity_main_page"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Main_page2"
+            android:name=".HomePageActivity"
             android:label="@string/title_activity_main_page2"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
