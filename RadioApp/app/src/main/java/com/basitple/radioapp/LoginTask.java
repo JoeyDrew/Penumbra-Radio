@@ -40,6 +40,7 @@ public class LoginTask extends AsyncTask {
                         Log.d(user.getEmail(), Email_In);
                         if (user.getName().equals(UserName_In)  && user.getEmail().equals(Email_In)) {
                             Delegate.processFinish(true);
+                            return;
                         }
                     }
                     Delegate.processFinish(false);

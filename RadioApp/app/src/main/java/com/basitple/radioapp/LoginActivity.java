@@ -1,6 +1,7 @@
 package com.basitple.radioapp;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -40,17 +41,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Log.d("login.id", Integer.toString(login.getId()));
         if(v.getId() == login.getId()){
             Log.d("match", "match");
-            new LoginTask(loginName.getText().toString()
-                    , loginEmail.getText().toString()
-                    , new AsyncResponse<Boolean>() {
-                @Override
-                public void processFinish(Boolean value) {
-                    Log.d("value", Boolean.toString(value));
-                    if(value){
-                        startActivity(toHome);
+            try {
+                AsyncTask loginTask = new LoginTask(loginName.getText().toString()
+                        , loginEmail.getText().toString()
+                        , new AsyncResponse<Boolean>() {
+                    @Override
+                    public void processFinish(Boolean value) {
+                        Log.d("value", Boolean.toString(value));
+                        if (value) {
+                            startActivity(toHome);
+                        }
                     }
-                }
-            }).execute();
+                }).execute();
+            } catch(Exception e){
+                e.printStackTrace();
+            }
         } else if(v == newUser){
 
         }
