@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.basitple.radioapp.MainRegistrationActivity">
+    tools:context="com.basitple.radioapp.AlarmPageActivity">
 
-    <include layout="@layout/content_main_registration" />
+    <include layout="@layout/content_alarm" />
 
 </android.support.design.widget.CoordinatorLayout>

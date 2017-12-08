@@ -9,7 +9,7 @@
     tools:context="com.basitple.radioapp.HomePageActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="25dp"
-    tools:showIn="@layout/activity_main_page2">
+    tools:showIn="@layout/activity_home_page">
 
     <Button
         android:id="@+id/PROFILE_BUTTON"

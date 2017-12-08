@@ -23,7 +23,7 @@ public class AlarmPageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_page);
+        setContentView(R.layout.activity_alarm);
         this.context =this;
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         time_Picker = (TimePicker)findViewById(R.id.timePicker);
@@ -44,7 +44,7 @@ public class AlarmPageActivity extends AppCompatActivity {
                 else{
 
                     //turn of the alarm
-            }
+                }
 
         }});
     }

@@ -1,11 +1,7 @@
 package com.basitple.radioapp;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +16,7 @@ public class MainRegistrationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_registration);
+        setContentView(R.layout.activity_registration);
 
         register = (Button)findViewById(R.id.button8);
         editName = (EditText)findViewById(R.id.editText3);

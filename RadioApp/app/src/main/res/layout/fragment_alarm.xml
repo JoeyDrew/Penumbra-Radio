@@ -6,6 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.basitple.radioapp.AlarmPageActivity">
 
-    <include layout="@layout/content_main_page" />
+    <include layout="@layout/content_alarm" />
 
 </android.support.design.widget.CoordinatorLayout>
