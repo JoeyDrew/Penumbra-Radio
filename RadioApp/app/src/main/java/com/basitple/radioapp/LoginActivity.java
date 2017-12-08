@@ -17,10 +17,11 @@ import java.util.concurrent.ExecutionException;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button login;
-    Button newUser;
-    EditText loginName;
-    EditText loginEmail;
+    private Button login;
+    private Button newUser;
+    private EditText loginName;
+    private EditText loginEmail;
+    Intent toHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         loginEmail = (EditText)findViewById(R.id.user_Email_login);
         login = (Button)findViewById(R.id.button);
         newUser = (Button)findViewById(R.id.button9);
+        toHome = new Intent(LoginActivity.this, HomePageActivity.class);
 
         // perform setOnClickListener on first Button
         login.setOnClickListener(new View.OnClickListener()
@@ -48,8 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                     String output=  loginBackgroundTask.execute(method,userName,userEmail).get();
                     Log.e("user",output);
                     if(output.equalsIgnoreCase(userName)){
-                        Intent toMain = new Intent(LoginActivity.this, HomePageActivity.class);
-                        startActivity(toMain);
+                        startActivity(toHome);
                         Toast.makeText(LoginActivity.this,"welcome " + userName + "!",Toast.LENGTH_LONG).show();
                     }else {
                         Toast.makeText(LoginActivity.this,"register",Toast.LENGTH_LONG).show();

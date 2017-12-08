@@ -43,7 +43,11 @@
     <!--Slide View for MediaPlayer-->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/newsButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="119dp">
 
         <SeekBar
             android:id="@+id/seekBar"
@@ -68,13 +72,13 @@
             android:id="@+id/songTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="141dp"
             android:layout_marginStart="141dp"
             android:layout_marginTop="16dp"
             android:text=""
             android:textColor="#ffffffff"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="141dp" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imageView2"

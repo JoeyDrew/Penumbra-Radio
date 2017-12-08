@@ -48,9 +48,6 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         toProfile = new Intent(HomePageActivity.this, ProfilePageActivity.class);
         initUI();
         initMusicPlayer();
-
-        //Set up buttons
-
     }
 
     private void initUI(){
@@ -63,6 +60,8 @@ public class HomePageActivity extends AppCompatActivity implements View.OnClickL
         newsButton.setOnClickListener(this);
         alarmButton.setOnClickListener(this);
         logOutButton.setOnClickListener(this);
+        musicButton.setOnClickListener(this);
+
     }
 
     private void initMusicPlayer(){

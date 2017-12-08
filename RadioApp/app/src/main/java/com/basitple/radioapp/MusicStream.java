@@ -22,19 +22,24 @@ public class MusicStream {
                 .build();
 
         SCService scService = retrofit.create(SCService.class);
-        scService.getSongs(null).enqueue(new Callback<List<Song>>() {
-            @Override
-            public void onResponse(Call<List<Song>> call, Response<List<Song>> response) {
-                if(response.isSuccessful()){
-                    songs = response.body();
-                } else {
 
+        scService.getSongs().enqueue(new Callback<SongsList>() {
+            @Override
+            public void onResponse(Call<SongsList> call, Response<SongsList> response) {
+                if(response.isSuccessful()){
+                    Log.d("Response", response.body().songs.get(1).getTitle());
+                    SongsList tmp = response.body();
+                    songs = tmp.songs;
+
+                } else {
+                    Log.e("Response Error", Integer.toString(response.code()));
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Song>> call, Throwable t) {
-
+            public void onFailure(Call<SongsList> call, Throwable t) {
+                Log.e("Response Failed", t.getMessage());
+                t.printStackTrace();
             }
         });
     }

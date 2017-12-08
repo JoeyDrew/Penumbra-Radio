@@ -8,8 +8,11 @@ import retrofit2.http.Path;
 
 public interface SCService {
 
+    @GET("/songs/")
+    Call<SongsList> getSongs();
+
     @GET("/songs/{id}")
-    Call<List<Song>> getSongs(@Path("id") String id);
+    Call<Song> get1Song(@Path("id") int id);
 
     @GET("/users/{id}")
     Call<List<User>> getUsers(@Path("id") String id);
