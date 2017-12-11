@@ -2,20 +2,21 @@
 <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/SLIDING_LAYOUT"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="bottom"
+    app:umanoFadeColor="#B3000000"
+    app:umanoOverlay="false"
     app:umanoPanelHeight="100dp"
     app:umanoShadowHeight="10dp"
-    app:umanoOverlay= "true"
-    app:umanoFadeColor="#B3000000"
-    android:gravity = "bottom"
     tools:context="com.basitple.radioapp.MainActivity">
 
     <!-- Main View Fragments go Here MAX 1 FRAGMENT or CRASH-->
     <FrameLayout
         android:id="@+id/mainFragContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

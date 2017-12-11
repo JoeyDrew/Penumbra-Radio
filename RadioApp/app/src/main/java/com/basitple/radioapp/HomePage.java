@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,6 +94,19 @@ public class HomePage extends Fragment implements View.OnClickListener {
         profileButton = (Button)inflatedView.findViewById(R.id.PROFILE_BUTTON);
         logOutButton = (Button)inflatedView.findViewById(R.id.LOG_OUT_BUTTON);
 
+        inflatedView.setFocusableInTouchMode(true);
+        inflatedView.requestFocus();
+        inflatedView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP){
+                    getActivity().finish();
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
 
         newsButton.setOnClickListener(this);
@@ -150,6 +164,8 @@ public class HomePage extends Fragment implements View.OnClickListener {
 
         }
     }
+
+
 
     /**
      * This interface must be implemented by activities that contain this
