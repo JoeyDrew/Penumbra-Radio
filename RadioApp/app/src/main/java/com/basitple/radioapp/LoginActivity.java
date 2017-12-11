@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         newUser = (Button)findViewById(R.id.NEW_USE_BUTTON);
         login.setOnClickListener(this);
         newUser.setOnClickListener(this);
-        toHome = new Intent(LoginActivity.this, HomePageActivity.class);
+        toHome = new Intent(LoginActivity.this, MainActivity.class);
 
     }
     @Override

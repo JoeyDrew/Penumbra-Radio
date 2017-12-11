@@ -32,8 +32,8 @@ public class MainRegistrationActivity extends AppCompatActivity {
                 {
                     finish();
                 } else {
-                    editEmail.clearComposingText();
-                    editEmailRe.clearComposingText();
+                    editEmail.setText("");
+                    editEmailRe.setText("");
                 }
             }
         });
