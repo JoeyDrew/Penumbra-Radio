@@ -1,29 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.basitple.radioapp.HomePage">
+
+    <!-- TODO: Update blank fragment layout -->
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/stary_background"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.basitple.radioapp.HomePageActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="25dp"
-    tools:showIn="@layout/activity_home_page">
+    tools:showIn="@layout/activity_main">
 
     <Button
         android:id="@+id/PROFILE_BUTTON"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="167dp"
         android:layout_height="153dp"
-        android:layout_marginBottom="69dp"
+        android:layout_marginBottom="32dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="57dp"
         android:alpha="0.60"
         android:background="@drawable/round_button"
         android:elevation="1dp"
         android:text="Profile"
-        app:layout_constraintBottom_toBottomOf="@+id/LOG_OUT_BUTTON"
+        app:layout_constraintBottom_toTopOf="@+id/LOG_OUT_BUTTON"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_constraintBottom_creator="1"
@@ -64,9 +69,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="34dp"
+        android:layout_marginTop="8dp"
         android:text="Log out"
-        app:layout_constraintBottom_toTopOf="@+id/MUSIC_BUTTON"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/MUSIC_BUTTON"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintRight_creator="1" />
 
@@ -79,7 +85,6 @@
         android:layout_marginTop="8dp"
         android:alpha="0.60"
         android:background="@drawable/round_button"
-        android:onClick="alarm"
         android:text="Alarm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -88,3 +93,5 @@
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintRight_creator="1" />
 </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

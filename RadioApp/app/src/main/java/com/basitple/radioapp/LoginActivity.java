@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.method.KeyListener;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 // added the login possibility
 //get some skiped frame errors, but it will not crash the app
 //i am using the production server. since i am not making any changes to it.
@@ -20,6 +24,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText loginName;
     private EditText loginEmail;
     Intent toHome;
+    Intent toRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +36,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         newUser = (Button)findViewById(R.id.NEW_USE_BUTTON);
         login.setOnClickListener(this);
         newUser.setOnClickListener(this);
-        toHome = new Intent(LoginActivity.this, HomePageActivity.class);
+        toHome = new Intent(LoginActivity.this, MainActivity.class);
+        toRegister = new Intent(LoginActivity.this, MainRegistrationActivity.class);
 
     }
     @Override
@@ -50,6 +56,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Log.d("value", Boolean.toString(value));
                         if (value) {
                             startActivity(toHome);
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Please register", Toast.LENGTH_LONG).show();
+                            loginName.setText("");
+                            loginEmail.setText("");
                         }
                     }
                 }).execute();
@@ -57,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 e.printStackTrace();
             }
         } else if(v == newUser){
-
+            startActivity(toRegister);
         }
     }
 }

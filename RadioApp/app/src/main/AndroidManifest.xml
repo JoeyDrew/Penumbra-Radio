@@ -25,20 +25,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AlarmPageActivity"
-            android:label="@string/title_activity_alarm_page"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".HomePageActivity"
+            android:name=".MainActivity"
             android:label="@string/title_activity_home_page"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainRegistrationActivity"
             android:label="@string/title_activity_main_registration"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
-        <activity android:name=".MusicPageActivity"
-            android:label="@string/title_activity_music_page"
             android:theme="@style/AppTheme.NoActionBar"/>
 
     </application>
