@@ -1,13 +1,21 @@
 package com.basitple.radioapp;
 
+import android.drm.DrmStore;
 import android.media.AsyncPlayer;
+import android.media.AudioRecord;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
-import android.view.ViewDebug;
 
-import java.io.Console;
+import com.google.gson.GsonBuilder;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -15,7 +23,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BuildMusicStream extends AsyncTask<Void, Void, List<Song>> {
-    static private List<Song> songs;
+    private List<Song> songs;
 
     public AsyncResponse<List<Song>> delegate = null;
     public BuildMusicStream(AsyncResponse<List<Song>> delegate){
@@ -44,30 +52,71 @@ public class BuildMusicStream extends AsyncTask<Void, Void, List<Song>> {
                 .build();
 
         SCService scService = retrofit.create(SCService.class);
+        Call<SongsList> call = scService.getSongs();
+        try {
+            songs = call.execute().body().songs;
+        } catch (Throwable t){
+            t.printStackTrace();
+            return;
+        }
+        for(Song song: songs){
+            syncMusic(song);
+        }
+        delegate.processFinish(songs);
+    }
 
-        scService.getSongs().enqueue(new Callback<SongsList>() {
-            @Override
-            public void onResponse(Call<SongsList> call, Response<SongsList> response) {
-                if(response.isSuccessful()){
-                    Log.d("Response", response.body().songs.get(1).getTitle());
-                    SongsList songsOBJ = response.body();
-                    songs = songsOBJ.songs;
-                    delegate.processFinish(songsOBJ.songs);
+    private void syncMusic(Song song) {
+        final Song song1 = song;
+        File songFile = new File(Environment.getRootDirectory(), "Music/" + song.getTitle());
+        if(songFile.exists()){
+            song.setAudioFile(songFile);
+            return;
+        }
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Config.SERVER_URL)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
+                .build();
 
+        SCService scService = retrofit.create(SCService.class);
+        Call<ResponseBody> call = scService.getSongFile(song.getID());
+        try{
+            ResponseBody response = call.execute().body();
+            boolean writeSuccess = writeResponseBodyToDisk(response, song1);
+            if(writeSuccess) {
+            } else {
+                delegate.processFinish(null);
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
 
-                } else {
-                    Log.e("Response Error", Integer.toString(response.code()));
-                }
-
+    private boolean writeResponseBodyToDisk(ResponseBody body, Song song) {
+        try {
+            File root = new File(Environment.getExternalStorageDirectory(), "Music");
+            if(!root.exists()){
+                root.mkdir();
             }
 
-            @Override
-            public void onFailure(Call<SongsList> call, Throwable t) {
-                Log.e("Response Failed", t.getMessage());
-                t.printStackTrace();
+            File audioFile = new File(root, song.getTitle());
 
+            try {
+                FileWriter writer = new FileWriter(audioFile);
+                writer.append(body.string());
+                writer.flush();
+                writer.close();
+                song.setAudioFile(audioFile);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+                return false;
             }
-        });
+            return true;
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

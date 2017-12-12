@@ -1,5 +1,7 @@
 package com.basitple.radioapp;
 
+import android.util.Log;
+
 import java.io.File;
 import com.google.gson.annotations.SerializedName;
 
@@ -27,11 +29,21 @@ public class Song {
     @SerializedName("artname")
     private String artname;
 
+    private File audioFile;
+
+    public void setAudioFile(File audioFile){
+        this.audioFile = audioFile;
+    }
     public long getID(){return id;}
     public String getTitle(){return title;}
     public String getArtist(){return artist;}
     public File getSong(){
-        return null;
+        if (audioFile != null) {
+            Log.d("AudioFile in Song.java", audioFile.toString());
+        } else {
+            Log.d("AudioFile in Song.java", "null");
+        }
+        return audioFile;
     }
 
 

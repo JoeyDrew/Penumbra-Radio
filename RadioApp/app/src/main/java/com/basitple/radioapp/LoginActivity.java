@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 // added the login possibility
 //get some skiped frame errors, but it will not crash the app
 //i am using the production server. since i am not making any changes to it.

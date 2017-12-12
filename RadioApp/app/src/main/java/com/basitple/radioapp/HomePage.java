@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
 import java.util.List;
 
 
@@ -44,6 +46,7 @@ public class HomePage extends Fragment implements View.OnClickListener {
     private Button logOutButton;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
+    SlidingUpPanelLayout slidingLayout;
     public static List<Song> songs;
     private View inflatedView;
 
@@ -93,6 +96,7 @@ public class HomePage extends Fragment implements View.OnClickListener {
         musicButton = (Button)inflatedView.findViewById(R.id.MUSIC_BUTTON);
         profileButton = (Button)inflatedView.findViewById(R.id.PROFILE_BUTTON);
         logOutButton = (Button)inflatedView.findViewById(R.id.LOG_OUT_BUTTON);
+        slidingLayout = (SlidingUpPanelLayout)getActivity().findViewById(R.id.SLIDING_LAYOUT);
 
         inflatedView.setFocusableInTouchMode(true);
         inflatedView.requestFocus();
@@ -100,7 +104,11 @@ public class HomePage extends Fragment implements View.OnClickListener {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP){
-                    getActivity().finish();
+                    if(slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                        getActivity().finish();
+                    } else {
+                        slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+                    }
                     return true;
                 }
                 return false;
