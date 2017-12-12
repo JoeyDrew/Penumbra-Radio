@@ -68,7 +68,7 @@ public class BuildMusicStream extends AsyncTask<Void, Void, Void> {
                 .build();
 
         SCService scService = retrofit.create(SCService.class);
-        Call<ResponseBody> call = scService.getSongFile(song.getID());
+        Call<ResponseBody> call = scService.getSongFile(1);
         try{
             ResponseBody response = call.execute().body();
             boolean writeSuccess = writeResponseBodyToDisk(response, song);
