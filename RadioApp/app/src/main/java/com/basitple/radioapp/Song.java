@@ -3,6 +3,8 @@ package com.basitple.radioapp;
 import android.util.Log;
 
 import java.io.File;
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
 

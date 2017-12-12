@@ -3,13 +3,17 @@ package com.basitple.radioapp;
 //what to delete here?
 import android.Manifest;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -18,12 +22,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.gson.GsonBuilder;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -40,19 +48,23 @@ public class MainActivity extends FragmentActivity
                 , NewsPageFragment.OnFragmentInteractionListener
 {
     private List<Song> songs;
+    private ArrayList<AudioFile> audioList;
     SlidingUpPanelLayout slidingLayout;
     Fragment homePage = null;
-    final static int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
-    final static int MY_PERMISSIONS_READ_EXTERNAL_STORAGE = 2;
+    public static final int MY_PERMISSIONS_WRITE_EXTERNAL_STORAGE = 1;
+    public static final int MY_PERMISSIONS_READ_EXTERNAL_STORAGE = 2;
+    public static final String Broadcast_PLAY_NEW_AUDIO = "com.basitple.radioapp.PlayNewAudio";
     private ServiceConnection serviceConnection;
     private MusicService player;
     boolean serviceBound = false;
+    ImageButton prevSongBtn;
+    ImageButton nextSongBtn;
+    ImageButton playSongBtn;
 
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         initPermissions();
-        songs = initMusicPlayer();
-        playAudio(songs.get(0).getSong().getAbsolutePath());
+        initMusicPlayer();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction  = fragmentManager.beginTransaction();
@@ -60,14 +72,31 @@ public class MainActivity extends FragmentActivity
             homePage = new HomePage();
         }
         setContentView(R.layout.activity_main);
+        playSongBtn = (ImageButton) findViewById(R.id.PLAY_SONG);
+        nextSongBtn = (ImageButton) findViewById(R.id.NEXT_SONG);
+        prevSongBtn = (ImageButton) findViewById(R.id.PREVIOUS_SONG);
+        playSongBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!serviceBound) {
+                    playAudio(0);
+                } else if (!player.isPlaying()){
+                    player.resumeMedia();
+                } else {
+                    player.pauseMedia();
+                }
+            }
+        });
+
         slidingLayout = (SlidingUpPanelLayout)findViewById(R.id.SLIDING_LAYOUT);
         slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         fragmentTransaction.add(R.id.mainFragContainer, homePage);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+
     }
 
-    private List<Song> initMusicPlayer(){
+    private void initMusicPlayer(){
         try {
             serviceConnection = new ServiceConnection() {
                 @Override
@@ -83,26 +112,16 @@ public class MainActivity extends FragmentActivity
                     serviceBound = false;
                 }
             };
-            return new BuildMusicStream(new AsyncResponse<List<Song>>() {
+            loadAudio();
+            new BuildMusicStream(new AsyncResponse<Boolean>() {
                 @Override
-                public void processFinish(List<Song> output) {
-                    songs = output;
-                    if (songs == null) {
-                        Toast.makeText(MainActivity.this, "Failed", Toast.LENGTH_LONG).show();
-                    } else {
-                        for (Song song : songs) {
-                            if (song.getSong() != null) {
-                                Log.d("Song path", song.getSong().getAbsolutePath());
-                            } else {
-                                Log.d("Path does not exist", song.getTitle());
-                            }
-                        }
-                    }
+                public void processFinish(Boolean output) {
+                    if (!output) finish();
                 }
             }).execute().get();
         } catch (Throwable t){
             t.printStackTrace();
-            return null;
+            return;
         }
     }
 
@@ -151,14 +170,26 @@ public class MainActivity extends FragmentActivity
         }
     }
 
-    private void playAudio(String media){
-        if (!serviceBound){
+    private void playAudio(int audioIndex) {
+        //Check is service is active
+        if (!serviceBound) {
+            //Store Serializable audioList to SharedPreferences
+            StorageUtil storage = new StorageUtil(getApplicationContext());
+            storage.storeAudio(audioList);
+            storage.storeAudioIndex(audioIndex);
+
             Intent playerIntent = new Intent(this, MusicService.class);
-            playerIntent.putExtra("media", media);
             startService(playerIntent);
             bindService(playerIntent, serviceConnection, Context.BIND_AUTO_CREATE);
         } else {
+            //Store the new audioIndex to SharedPreferences
+            StorageUtil storage = new StorageUtil(getApplicationContext());
+            storage.storeAudioIndex(audioIndex);
 
+            //Service is active
+            //Send a broadcast to the service -> PLAY_NEW_AUDIO
+            Intent broadcastIntent = new Intent(Broadcast_PLAY_NEW_AUDIO);
+            sendBroadcast(broadcastIntent);
         }
     }
 
@@ -182,5 +213,28 @@ public class MainActivity extends FragmentActivity
             //service is active
             player.stopSelf();
         }
+    }
+
+    private void loadAudio() {
+        ContentResolver contentResolver = getContentResolver();
+
+        Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        String selection = MediaStore.Audio.Media.IS_MUSIC + "!= 0";
+        String sortOrder = MediaStore.Audio.Media.TITLE + " ASC";
+        Cursor cursor = contentResolver.query(uri, null, selection, null, sortOrder);
+
+        if (cursor != null && cursor.getCount() > 0) {
+            audioList = new ArrayList<>();
+            while (cursor.moveToNext()) {
+                String data = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA));
+                String title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
+                String album = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM));
+                String artist = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST));
+
+                // Save to audioList
+                audioList.add(new AudioFile(data, title, album, artist));
+            }
+        }
+        cursor.close();
     }
 }

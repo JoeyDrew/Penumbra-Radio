@@ -22,27 +22,22 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class BuildMusicStream extends AsyncTask<Void, Void, List<Song>> {
+public class BuildMusicStream extends AsyncTask<Void, Void, Void> {
     private List<Song> songs;
 
-    public AsyncResponse<List<Song>> delegate = null;
-    public BuildMusicStream(AsyncResponse<List<Song>> delegate){
+    public AsyncResponse<Boolean> delegate = null;
+    public BuildMusicStream(AsyncResponse<Boolean> delegate){
         this.delegate = delegate;
     }
     @Override
-    protected List<Song> doInBackground(Void... Params){
+    protected Void doInBackground(Void... Params){
         BuildMusicList();
-        return songs;
+        return null;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-    }
-
-    @Override
-    protected void onPostExecute(List<Song> songs) {
-        super.onPostExecute(songs);
     }
 
     private void BuildMusicList(){
@@ -62,16 +57,10 @@ public class BuildMusicStream extends AsyncTask<Void, Void, List<Song>> {
         for(Song song: songs){
             syncMusic(song);
         }
-        delegate.processFinish(songs);
+        delegate.processFinish(true);
     }
 
     private void syncMusic(Song song) {
-        final Song song1 = song;
-        File songFile = new File(Environment.getRootDirectory(), "Music/" + song.getTitle());
-        if(songFile.exists()){
-            song.setAudioFile(songFile);
-            return;
-        }
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Config.SERVER_URL)
@@ -82,7 +71,7 @@ public class BuildMusicStream extends AsyncTask<Void, Void, List<Song>> {
         Call<ResponseBody> call = scService.getSongFile(song.getID());
         try{
             ResponseBody response = call.execute().body();
-            boolean writeSuccess = writeResponseBodyToDisk(response, song1);
+            boolean writeSuccess = writeResponseBodyToDisk(response, song);
             if(writeSuccess) {
             } else {
                 delegate.processFinish(null);
