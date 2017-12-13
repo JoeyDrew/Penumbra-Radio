@@ -1,7 +1,11 @@
 package com.basitple.radioapp;
 
+import android.os.Environment;
+import android.support.v4.util.TimeUtils;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -23,9 +27,19 @@ public class Rating {
 
     @SerializedName("updated_at")
     private Date lastUpdated;
-
+    public Rating (Long id){
+        this.id = -1;
+        this.userId = id;
+        this.songId = -1;
+        this.rating = -1;
+        this.dateCreated = Calendar.getInstance().getTime();
+    }
     public long getId() {
         return id;
+    }
+
+    public void setUserId(long id){
+        userId = id;
     }
 
     public long getUserId() {

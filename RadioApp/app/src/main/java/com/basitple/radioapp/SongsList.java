@@ -2,7 +2,7 @@ package com.basitple.radioapp;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by BadAp on 12/8/2017.
@@ -11,6 +11,6 @@ import java.util.List;
 public class SongsList {
 
     @SerializedName("songs")
-    public List<Song> songs;
+    public ArrayList<Song> songs;
 
 }

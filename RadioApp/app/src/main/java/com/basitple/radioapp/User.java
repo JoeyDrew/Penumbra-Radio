@@ -2,6 +2,7 @@ package com.basitple.radioapp;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -17,7 +18,7 @@ public class User {
     private String name;
 
     @SerializedName("ratings")
-    private List<Rating> ratings;
+    private ArrayList<Rating> ratings;
 
     public long getId() {
         return id;
@@ -31,7 +32,8 @@ public class User {
         return name;
     }
 
-    public List<Rating> getRatings() {
+    public ArrayList<Rating> getRatings() {
         return ratings;
     }
+
 }

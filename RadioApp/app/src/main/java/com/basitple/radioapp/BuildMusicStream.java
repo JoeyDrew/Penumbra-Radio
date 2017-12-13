@@ -1,36 +1,21 @@
 package com.basitple.radioapp;
 
-import android.drm.DrmStore;
-import android.media.AsyncPlayer;
-import android.media.AudioRecord;
 import android.os.AsyncTask;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.util.Log;
 
-import com.google.gson.GsonBuilder;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class BuildMusicStream extends AsyncTask<Void, Void, Void> {
-    private List<Song> songs;
-
-    public AsyncResponse<Boolean> delegate = null;
-    public BuildMusicStream(AsyncResponse<Boolean> delegate){
+public class BuildMusicStream extends AsyncTask<MainActivity, Void, Void> {
+    private ArrayList<Song> songs;
+    public AsyncResponse<ArrayList<Song>> delegate = null;
+    public BuildMusicStream(AsyncResponse<ArrayList<Song>> delegate){
         this.delegate = delegate;
     }
     @Override
-    protected Void doInBackground(Void... Params){
+    protected Void doInBackground(MainActivity... Params){
         BuildMusicList();
         return null;
     }
@@ -50,62 +35,9 @@ public class BuildMusicStream extends AsyncTask<Void, Void, Void> {
         Call<SongsList> call = scService.getSongs();
         try {
             songs = call.execute().body().songs;
+            delegate.processFinish(songs);
         } catch (Throwable t){
             t.printStackTrace();
-            return;
-        }
-        for(Song song: songs){
-            syncMusic(song);
-        }
-        delegate.processFinish(true);
-    }
-
-    private void syncMusic(Song song) {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Config.SERVER_URL)
-                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
-                .build();
-
-        SCService scService = retrofit.create(SCService.class);
-        Call<ResponseBody> call = scService.getSongFile(1);
-        try{
-            ResponseBody response = call.execute().body();
-            boolean writeSuccess = writeResponseBodyToDisk(response, song);
-            if(writeSuccess) {
-            } else {
-                delegate.processFinish(null);
-            }
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-    }
-
-    private boolean writeResponseBodyToDisk(ResponseBody body, Song song) {
-        try {
-            File root = new File(Environment.getExternalStorageDirectory(), "Music");
-            if(!root.exists()){
-                root.mkdir();
-            }
-
-            File audioFile = new File(root, song.getTitle());
-
-            try {
-                FileWriter writer = new FileWriter(audioFile);
-                writer.append(body.string());
-                writer.flush();
-                writer.close();
-                song.setAudioFile(audioFile);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
-                return false;
-            }
-            return true;
-        } catch (Throwable e) {
-            e.printStackTrace();
-            return false;
         }
     }
 }
