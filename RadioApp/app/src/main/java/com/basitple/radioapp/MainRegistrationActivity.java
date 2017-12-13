@@ -1,6 +1,5 @@
 package com.basitple.radioapp;
-
-import android.os.AsyncTask;
+  import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,93 +22,126 @@ import java.net.HttpRetryException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+    public class MainRegistrationActivity extends AppCompatActivity {
 
-public class MainRegistrationActivity extends AppCompatActivity {
+        Button register;
+        EditText editName;
+        EditText editEmail;
+        EditText editEmailRe;
 
-    Button register;
-    EditText editName;
-    EditText editEmail;
-    EditText editEmailRe;
-    ArrayList<Rating> defaultRatingsList = new ArrayList<>();
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_registration);
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
-        defaultRatingsList.add(new Rating(0L));
-        register = (Button) findViewById(R.id.button8);
-        editName = (EditText) findViewById(R.id.editText3);
-        editEmail = (EditText) findViewById(R.id.editText4);
-        editEmailRe = (EditText) findViewById(R.id.editText6);
+            register = (Button) findViewById(R.id.button8);
+            editName = (EditText) findViewById(R.id.editText3);
+            editEmail = (EditText) findViewById(R.id.editText4);
+            editEmailRe = (EditText) findViewById(R.id.editText6);
 
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (editName.getText().toString().equals("") && editEmail.getText().toString().equals("") &&
-                        editEmailRe.getText().toString().equals("") &&
-                        editEmail.getText().toString().equals(editEmailRe.getText().toString())) {
+            register.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (editEmail.getText().toString().equals(editEmailRe.getText().toString())) {
+                        senddatatoserver(v);
+                        finish();
+                        Log.e("reply", "added");
+                    } else {
+                        editEmail.setText("");
+                        editEmailRe.setText("");
+                    }
+                }
+            });
 
-                    senddatatoserver(v);
-                    Log.e("reply", "added");
-                } else {
-                    editEmail.setText("");
-                    editEmailRe.setText("");
+        }
+
+        public void senddatatoserver(View v) {
+            //function in the activity that corresponds to the layout button
+            String editEmailText = editEmail.getText().toString();
+            String editNameText = editName.getText().toString();
+            //  Age = AgeView.getText().toString();
+            JSONObject wrap = new JSONObject();
+            JSONObject new_user = new JSONObject();
+            JSONArray rating = new JSONArray();
+            try {
+                new_user.put("email", editEmailText);
+                new_user.put("name", editNameText);
+                // post_dict.put("firstname", Age);
+                wrap.put("user", new_user);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (new_user.length() > 0) {
+                new sendJsonDataToServer().execute(String.valueOf(wrap));
+            }
+        }
+    }
+    class sendJsonDataToServer extends AsyncTask<String, String, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            String JsonResponse = null;
+            String JsonDATA = params[0];
+            HttpURLConnection urlConnection = null;
+            BufferedReader reader = null;
+            try {
+                String url_add = "http://18.221.90.240:3000/users";
+                URL url = new URL(url_add);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                // urlConnection.setDoOutput(true);
+                // is output buffer writter
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.connect();
+                //urlConnection.setRequestProperty("Accept", "application/json");
+//set headers and method
+                Writer writer = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream(), "UTF-8"));
+                writer.write(JsonDATA);
+// json data
+                writer.close();
+                InputStream inputStream = urlConnection.getInputStream();
+//input stream
+                StringBuffer buffer = new StringBuffer();
+                // reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                Log.e("onject", JsonDATA);
+                //String inputLine;
+                //while ((inputLine = reader.readLine()) != null)
+                //  buffer.append(inputLine + "\n");
+                //if (buffer.length() == 0) {
+                // Stream was empty. No point in parsing.
+                //  return null;
+                //}
+                JsonResponse = buffer.toString();
+//response data
+                Log.i("server:", "hello");
+//send to post execute
+                return "hello";
+                //JsonResponse;
+
+            } catch (MalformedURLException e) {
+
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (reader != null) {
+                    try {
+                        reader.close();
+                    } catch (final IOException e) {
+                        Log.e("ERROR", "Error closing stream", e);
+                    }
                 }
             }
-        });
+            return null;
+        }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
     }
 
-    //does POST request in background
-    public void senddatatoserver(View v) {
-        final String editEmailText = editEmail.getText().toString();
-        final String editNameText = editName.getText().toString();
-        int newId = -1;
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Config.SERVER_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        final SCService scService = retrofit.create(SCService.class);
-        scService.getUsers("").enqueue(new Callback<UsersList>() {
-            @Override
-            public void onResponse(Call<UsersList> call, Response<UsersList> response) {
-                int newId = response.body().users.size()+1;
-                defaultRatingsList.get(0).setUserId(newId);
-                //enqueue automatically does Call in background
-                scService.registerUser(newId, editNameText, editEmailText, defaultRatingsList).enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if(response.isSuccessful()) {
-                            Log.d("Body", response.body().toString());
-                        } else {
-                            Log.d("Body", "null");
-                        }
-                        finish();
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });            }
-
-            @Override
-            public void onFailure(Call<UsersList> call, Throwable t) {
-
-            }
-        });
-
-
-    }
-}
 
