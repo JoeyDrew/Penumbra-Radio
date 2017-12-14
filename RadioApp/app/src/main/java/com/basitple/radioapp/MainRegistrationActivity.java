@@ -6,8 +6,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+  import android.widget.Toast;
 
-import org.json.JSONArray;
+  import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -24,8 +25,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
   import java.net.ProtocolException;
   import java.net.URL;
+  import java.util.concurrent.ExecutionException;
 
-    public class MainRegistrationActivity extends AppCompatActivity {
+public class MainRegistrationActivity extends AppCompatActivity {
 
         Button register;
         EditText editName;
@@ -46,8 +48,15 @@ import java.net.MalformedURLException;
                 @Override
                 public void onClick(View v) {
                     if (editEmail.getText().toString().equals(editEmailRe.getText().toString())) {
-                        senddatatoserver(v);
-                        Log.e("reply", "added");
+                       String result =  senddatatoserver(v);
+                        Log.e("reply", result);
+                        Toast.makeText( MainRegistrationActivity.this, result, Toast.LENGTH_SHORT).show();
+                        if(result.equalsIgnoreCase("user exit")) {
+                          editEmail.setText("");
+                          editEmailRe.setText("");
+                        }else {
+                            finish();
+                        }
                     } else {
                         editEmail.setText("");
                         editEmailRe.setText("");
@@ -57,7 +66,7 @@ import java.net.MalformedURLException;
 
         }
 
-        public void senddatatoserver(View v) {
+        public String senddatatoserver(View v) {
             //function in the activity that corresponds to the layout button
             String editEmailText = editEmail.getText().toString();
             String editNameText = editName.getText().toString();
@@ -74,8 +83,17 @@ import java.net.MalformedURLException;
                 e.printStackTrace();
             }
             if (new_user.length() > 0) {
-                new sendJsonDataToServer().execute(String.valueOf(wrap), editEmailText);
+                sendJsonDataToServer S =  new sendJsonDataToServer();
+                try {
+                    String output =  S.execute(String.valueOf(wrap), editEmailText).get();
+                    return output;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
             }
+            return null;
         }
     }
     class sendJsonDataToServer extends AsyncTask<String, String, String> {
@@ -124,7 +142,6 @@ import java.net.MalformedURLException;
                     // Log.e("email", user.getString("email").toString());
                 }
                 if (exist == false) {
-
                     HttpURLConnection urlConnection2 = (HttpURLConnection)  url.openConnection();
                     urlConnection2.setRequestMethod("POST");
                     urlConnection2.setRequestProperty("Content-Type", "application/json");
@@ -137,20 +154,15 @@ import java.net.MalformedURLException;
                     writer.close();
                     InputStream inputStream = urlConnection2.getInputStream();
 //input stream
-                    //StringBuffer buffer = new StringBuffer();
-                    // reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     Log.e("onject", JsonDATA);
-                    //String inputLine;
-                    //while ((inputLine = reader.readLine()) != null)
-                    //  buffer.append(inputLine + "\n");
-                    //if (buffer.length() == 0) {
-                    // Stream was empty. No point in parsing.
-                    //  return null;
-                    //}
                     JsonResponse = buffer.toString();
 //response data
                     Log.i("server:", "hello");
-//send to post execute}catch(MalformedURLException e){
+//send to post execute
+                    return "registered";
+                }
+                else{
+                    return "user exit";
                 }
             } catch (ProtocolException e1) {
                 e1.printStackTrace();
